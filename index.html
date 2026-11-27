@@ -1,0 +1,1472 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>17.c射频在线永不迷路_射频技术在线学习平台_专业射频知识与实战社区</title>
+<meta name="description" content="17.c射频在线永不迷路官方网站，专注射频工程领域的视频内容社区，提供射频电路设计、天线仿真、微波测量等高清原创教程与行业观察，搭建企业、工程师与创作者共同成长的专业内容生态。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1c2e'/%3E%3Cpath d='M14 40c6 0 6-16 12-16s6 16 12 16 6-16 12-16' stroke='%2338e1a6' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='14' cy='40' r='3' fill='%2338e1a6'/%3E%3C/svg%3E">
+<style>
+:root{
+--rf-bg:#0b1420;
+--rf-panel:#111f30;
+--rf-panel-2:#16283d;
+--rf-line:#22374f;
+--rf-text:#e8f1fa;
+--rf-muted:#93a8bd;
+--rf-accent:#38e1a6;
+--rf-accent-soft:rgba(56,225,166,.12);
+--rf-warn:#ffb347;
+--rf-radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+background:var(--rf-bg);
+color:var(--rf-text);
+font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+line-height:1.75;
+font-size:16px;
+-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+ul{list-style:none}
+.rf-container{width:min(1180px,92vw);margin:0 auto}
+.rf-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[id]{scroll-margin-top:132px}
+.rf-section{padding:64px 0;border-bottom:1px solid var(--rf-line)}
+.rf-section:last-of-type{border-bottom:none}
+.rf-eyebrow{
+display:inline-flex;align-items:center;gap:8px;
+font-size:12px;letter-spacing:.22em;color:var(--rf-accent);
+text-transform:uppercase;margin-bottom:14px;font-weight:600;
+}
+.rf-eyebrow::before{content:"";width:22px;height:2px;background:var(--rf-accent);display:inline-block}
+.rf-h2{font-size:clamp(22px,3vw,32px);line-height:1.35;font-weight:700;letter-spacing:.01em}
+.rf-h2 em{font-style:normal;color:var(--rf-accent)}
+.rf-lead{color:var(--rf-muted);margin-top:12px;max-width:760px;font-size:15px}
+.rf-h3{font-size:17px;font-weight:700;line-height:1.5}
+.rf-muted{color:var(--rf-muted)}
+.rf-btn{
+display:inline-flex;align-items:center;justify-content:center;gap:8px;
+padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;
+border:1px solid var(--rf-line);transition:.22s ease;white-space:nowrap;
+}
+.rf-btn-primary{background:var(--rf-accent);color:#04140e;border-color:var(--rf-accent)}
+.rf-btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.rf-btn-ghost:hover{border-color:var(--rf-accent);color:var(--rf-accent)}
+.rf-tag{
+display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;
+background:var(--rf-accent-soft);color:var(--rf-accent);border:1px solid rgba(56,225,166,.3);
+}
+.rf-tag-dim{background:rgba(255,255,255,.04);color:var(--rf-muted);border-color:var(--rf-line)}
+
+/* 吸顶公告 + 页头 */
+.rf-sticky-top{position:sticky;top:0;z-index:60}
+.rf-announce{
+background:linear-gradient(90deg,#0e2b24,#133a2e 55%,#0e2b24);
+border-bottom:1px solid rgba(56,225,166,.25);
+font-size:13px;color:#cdeee1;
+}
+.rf-announce-inner{
+display:flex;align-items:center;gap:14px;padding:9px 0;overflow:hidden;
+}
+.rf-announce-label{
+flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+background:var(--rf-accent);color:#04140e;font-weight:700;
+padding:2px 10px;border-radius:999px;font-size:11px;letter-spacing:.08em;
+}
+.rf-announce-track{flex:1 1 auto;min-width:0;display:flex;gap:26px;overflow:hidden;white-space:nowrap}
+.rf-announce-item{opacity:.92}
+.rf-announce-item b{color:var(--rf-accent);font-weight:600}
+.rf-announce-close{flex:0 0 auto;color:#8fc7b3;font-size:16px;line-height:1;padding:2px 4px}
+.rf-announce-close:hover{color:#fff}
+.rf-header{
+background:rgba(11,20,32,.92);backdrop-filter:blur(12px);
+border-bottom:1px solid var(--rf-line);
+}
+.rf-header-inner{display:flex;align-items:center;gap:22px;height:66px}
+.rf-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.01em;flex:0 0 auto}
+.rf-logo-mark{
+width:34px;height:34px;border-radius:10px;background:linear-gradient(140deg,#38e1a6,#1b7f8c);
+display:grid;place-items:center;color:#04140e;font-size:15px;font-weight:900;
+}
+.rf-logo small{display:block;font-size:10px;color:var(--rf-muted);font-weight:500;letter-spacing:.16em}
+.rf-nav{display:flex;gap:4px;flex:1 1 auto;flex-wrap:wrap}
+.rf-nav a{
+padding:8px 12px;border-radius:8px;font-size:14px;color:var(--rf-muted);transition:.2s;
+}
+.rf-nav a:hover{color:var(--rf-text);background:rgba(255,255,255,.05)}
+.rf-header-tools{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.rf-search{position:relative;display:flex;align-items:center}
+.rf-search input{
+width:190px;padding:9px 36px 9px 14px;border-radius:999px;
+background:var(--rf-panel);border:1px solid var(--rf-line);color:var(--rf-text);
+font-size:13px;outline:none;transition:.25s;
+}
+.rf-search input:focus{border-color:var(--rf-accent);width:230px;background:var(--rf-panel-2)}
+.rf-search button{
+position:absolute;right:6px;width:26px;height:26px;border-radius:50%;
+display:grid;place-items:center;color:var(--rf-muted);
+}
+.rf-search button:hover{color:var(--rf-accent)}
+.rf-search-feedback{
+position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--rf-panel-2);
+border:1px solid var(--rf-line);border-radius:12px;padding:10px 12px;font-size:12.5px;
+color:var(--rf-muted);display:none;box-shadow:0 14px 32px rgba(0,0,0,.45);z-index:70;
+}
+.rf-search-feedback.rf-on{display:block}
+.rf-search-feedback b{color:var(--rf-accent)}
+.rf-burger{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--rf-line);align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.rf-burger span{display:block;width:16px;height:2px;background:var(--rf-text);border-radius:2px;transition:.2s}
+
+/* 首屏：左文右侧大图 + 数据条 */
+.rf-hero{padding:58px 0 54px;position:relative;overflow:hidden}
+.rf-hero::after{
+content:"";position:absolute;width:520px;height:520px;border-radius:50%;
+background:radial-gradient(circle,rgba(56,225,166,.14),transparent 68%);
+top:-180px;right:-140px;pointer-events:none;
+}
+.rf-hero-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,4fr);gap:44px;align-items:center;position:relative;z-index:1}
+.rf-hero-badge{
+display:inline-flex;align-items:center;gap:8px;padding:5px 13px;border-radius:999px;
+background:rgba(56,225,166,.1);border:1px solid rgba(56,225,166,.35);
+font-size:12.5px;color:var(--rf-accent);margin-bottom:20px;font-weight:600;
+}
+.rf-hero h1{
+font-size:clamp(27px,4.1vw,46px);line-height:1.22;font-weight:800;letter-spacing:.005em;
+}
+.rf-hero h1 span{color:var(--rf-accent)}
+.rf-hero-desc{color:var(--rf-muted);margin-top:18px;font-size:15.5px;max-width:620px}
+.rf-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.rf-hero-stats{
+display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:34px;
+border-top:1px solid var(--rf-line);padding-top:24px;max-width:640px;
+}
+.rf-stat-num{font-size:clamp(20px,2.6vw,28px);font-weight:800;color:var(--rf-accent);line-height:1.2}
+.rf-stat-label{font-size:12.5px;color:var(--rf-muted);margin-top:4px}
+.rf-hero-visual{position:relative}
+.rf-hero-frame{
+border-radius:20px;overflow:hidden;border:1px solid var(--rf-line);
+box-shadow:0 30px 70px rgba(0,0,0,.5);background:var(--rf-panel);
+}
+.rf-hero-frame svg{display:block;width:100%;height:auto}
+.rf-hero-note{
+position:absolute;left:-16px;bottom:20px;background:rgba(11,20,32,.94);
+border:1px solid var(--rf-line);border-radius:12px;padding:10px 14px;font-size:12px;
+color:var(--rf-muted);backdrop-filter:blur(8px);
+}
+.rf-hero-note b{color:var(--rf-accent)}
+
+/* 通用网格 */
+.rf-grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.rf-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.rf-grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+
+/* 视频卡 */
+.rf-video-card{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+overflow:hidden;display:flex;flex-direction:column;transition:.25s ease;
+}
+.rf-video-card:hover{transform:translateY(-4px);border-color:rgba(56,225,166,.45);box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.rf-thumb{position:relative;aspect-ratio:16/9;background:var(--rf-panel-2);overflow:hidden}
+.rf-thumb svg{width:100%;height:100%;display:block}
+.rf-play{
+position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;
+background:rgba(4,20,14,.78);border:1px solid rgba(56,225,166,.6);
+display:grid;place-items:center;color:var(--rf-accent);font-size:12px;
+}
+.rf-duration{
+position:absolute;left:10px;bottom:10px;background:rgba(4,20,14,.8);
+padding:2px 8px;border-radius:6px;font-size:11px;color:#cdeee1;
+}
+.rf-video-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.rf-video-title{font-size:15.5px;font-weight:700;line-height:1.5}
+.rf-video-excerpt{font-size:13px;color:var(--rf-muted);line-height:1.7}
+.rf-video-meta{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12px;color:var(--rf-muted);margin-top:auto}
+.rf-video-meta b{color:var(--rf-text);font-weight:600}
+.rf-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
+.rf-act{
+display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;
+border:1px solid var(--rf-line);font-size:12px;color:var(--rf-muted);transition:.2s;
+}
+.rf-act:hover{border-color:var(--rf-accent);color:var(--rf-accent)}
+.rf-act.rf-liked{color:var(--rf-accent);border-color:rgba(56,225,166,.5);background:var(--rf-accent-soft)}
+.rf-act.rf-saved{color:var(--rf-warn);border-color:rgba(255,179,71,.5);background:rgba(255,179,71,.1)}
+
+/* 焦点大卡 */
+.rf-focus{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px;align-items:stretch}
+.rf-focus-main{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+overflow:hidden;display:flex;flex-direction:column;
+}
+.rf-focus-main .rf-thumb{aspect-ratio:16/8.4}
+.rf-focus-main .rf-video-body{padding:22px 24px 24px}
+.rf-focus-main .rf-video-title{font-size:clamp(18px,2.2vw,23px)}
+.rf-focus-list{display:flex;flex-direction:column;gap:12px}
+.rf-focus-item{
+display:flex;gap:14px;padding:14px;border-radius:12px;background:var(--rf-panel);
+border:1px solid var(--rf-line);transition:.22s;
+}
+.rf-focus-item:hover{border-color:rgba(56,225,166,.4);background:var(--rf-panel-2)}
+.rf-focus-num{
+flex:0 0 auto;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+background:var(--rf-accent-soft);color:var(--rf-accent);font-weight:800;font-size:14px;
+}
+.rf-focus-item h4{font-size:14.5px;line-height:1.5;font-weight:700}
+.rf-focus-item p{font-size:12.5px;color:var(--rf-muted);margin-top:4px}
+
+/* 文字列表视频 */
+.rf-video-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--rf-line);border-radius:var(--rf-radius);overflow:hidden}
+.rf-video-row{
+display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;align-items:center;
+padding:18px 22px;background:var(--rf-panel);border-bottom:1px solid var(--rf-line);transition:.2s;
+}
+.rf-video-row:last-child{border-bottom:none}
+.rf-video-row:hover{background:var(--rf-panel-2)}
+.rf-video-row h4{font-size:15px;font-weight:700;line-height:1.5}
+.rf-video-row p{font-size:12.5px;color:var(--rf-muted);margin-top:4px}
+.rf-row-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.rf-row-stat{font-size:12px;color:var(--rf-muted);text-align:right;line-height:1.9;white-space:nowrap}
+.rf-row-stat b{color:var(--rf-text)}
+
+/* 专题 */
+.rf-topic{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+padding:22px;display:flex;flex-direction:column;gap:14px;transition:.25s;
+}
+.rf-topic:hover{border-color:rgba(56,225,166,.4)}
+.rf-topic-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.rf-topic h3{font-size:16.5px;font-weight:700}
+.rf-topic p{font-size:13px;color:var(--rf-muted);line-height:1.7}
+.rf-topic-list{margin-top:2px;display:flex;flex-direction:column;gap:8px}
+.rf-topic-list li{font-size:12.8px;color:var(--rf-muted);display:flex;gap:8px;align-items:flex-start}
+.rf-topic-list li::before{content:"›";color:var(--rf-accent);font-weight:800}
+.rf-status{
+font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(56,225,166,.14);
+color:var(--rf-accent);border:1px solid rgba(56,225,166,.35);white-space:nowrap;
+}
+.rf-status.rf-hot{background:rgba(255,179,71,.14);color:var(--rf-warn);border-color:rgba(255,179,71,.4)}
+
+/* 作者：双列简介 */
+.rf-author{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+padding:22px;display:flex;gap:16px;transition:.25s;
+}
+.rf-author:hover{border-color:rgba(56,225,166,.4);transform:translateY(-3px)}
+.rf-avatar{
+flex:0 0 auto;width:58px;height:58px;border-radius:50%;
+display:grid;place-items:center;font-weight:800;font-size:19px;color:#04140e;
+}
+.rf-avatar-a{background:linear-gradient(135deg,#38e1a6,#1b9c8c)}
+.rf-avatar-b{background:linear-gradient(135deg,#7fb2ff,#3f6fd6)}
+.rf-avatar-c{background:linear-gradient(135deg,#ffb347,#e8722b)}
+.rf-avatar-d{background:linear-gradient(135deg,#c79bff,#7952d8)}
+.rf-avatar-e{background:linear-gradient(135deg,#ff8fa6,#d64f74)}
+.rf-avatar-f{background:linear-gradient(135deg,#8de3ff,#2f8fb3)}
+.rf-author-body{min-width:0}
+.rf-author-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rf-author-field{font-size:12px;color:var(--rf-accent);margin-top:2px}
+.rf-author-bio{font-size:12.8px;color:var(--rf-muted);margin-top:8px;line-height:1.75}
+.rf-author-stats{display:flex;gap:16px;font-size:12px;color:var(--rf-muted);margin-top:10px}
+.rf-author-stats b{color:var(--rf-text)}
+.rf-author-more{font-size:12px;color:var(--rf-accent);margin-top:10px;display:inline-block;border-bottom:1px dashed rgba(56,225,166,.4)}
+
+/* 评论：引用摘录 + 短评 */
+.rf-quote{
+background:linear-gradient(150deg,var(--rf-panel-2),var(--rf-panel));
+border:1px solid var(--rf-line);border-left:3px solid var(--rf-accent);
+border-radius:var(--rf-radius);padding:26px 28px;
+}
+.rf-quote p{font-size:15.5px;line-height:1.9}
+.rf-quote footer{margin-top:14px;font-size:12.5px;color:var(--rf-muted)}
+.rf-comment{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:12px;
+padding:16px 18px;display:flex;gap:12px;transition:.2s;
+}
+.rf-comment:hover{border-color:rgba(56,225,166,.3)}
+.rf-avatar-sm{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#04140e;flex:0 0 auto}
+.rf-comment-body{min-width:0}
+.rf-comment-name{font-size:13.5px;font-weight:700}
+.rf-comment-text{font-size:13px;color:var(--rf-muted);margin-top:5px;line-height:1.7}
+.rf-comment-time{font-size:11.5px;color:#5f7a92;margin-top:6px}
+.rf-comment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+/* 品牌故事/解析 */
+.rf-article{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+padding:28px 30px;
+}
+.rf-article h3{font-size:17.5px;font-weight:700;margin-bottom:10px;color:var(--rf-accent)}
+.rf-article p{font-size:14px;color:#c3d3e1;line-height:1.95;margin-bottom:14px}
+.rf-article p:last-child{margin-bottom:0}
+
+/* 时间线 */
+.rf-timeline{position:relative;padding-left:26px;margin-top:26px}
+.rf-timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--rf-accent),transparent)}
+.rf-tl-item{position:relative;padding-bottom:24px}
+.rf-tl-item::before{
+content:"";position:absolute;left:-26px;top:7px;width:12px;height:12px;border-radius:50%;
+background:var(--rf-bg);border:2px solid var(--rf-accent);
+}
+.rf-tl-item:last-child{padding-bottom:0}
+.rf-tl-year{font-size:12.5px;color:var(--rf-accent);font-weight:700;letter-spacing:.06em}
+.rf-tl-title{font-size:15px;font-weight:700;margin-top:2px}
+.rf-tl-desc{font-size:13px;color:var(--rf-muted);margin-top:4px}
+
+/* 榜单 */
+.rf-rank{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:var(--rf-radius);
+overflow:hidden;
+}
+.rf-rank-head{
+padding:16px 20px;border-bottom:1px solid var(--rf-line);
+display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--rf-panel-2);
+}
+.rf-rank-head h3{font-size:15.5px;font-weight:700}
+.rf-rank-row{
+display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:12px;align-items:center;
+padding:12px 20px;border-bottom:1px solid rgba(34,55,79,.6);font-size:13.5px;
+}
+.rf-rank-row:last-child{border-bottom:none}
+.rf-rank-row:hover{background:rgba(56,225,166,.05)}
+.rf-rank-idx{font-weight:800;color:#5f7a92;font-size:13px}
+.rf-rank-row:nth-child(2) .rf-rank-idx{color:var(--rf-accent)}
+.rf-rank-row:nth-child(3) .rf-rank-idx{color:var(--rf-warn)}
+.rf-rank-name{overflow-wrap:anywhere}
+.rf-rank-val{font-size:12px;color:var(--rf-muted);white-space:nowrap}
+
+/* 合作 */
+.rf-partner{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:12px;
+padding:22px 16px;text-align:center;transition:.22s;
+}
+.rf-partner:hover{border-color:rgba(56,225,166,.4);transform:translateY(-3px)}
+.rf-partner-mark{font-size:16px;font-weight:800;letter-spacing:.04em;color:var(--rf-text)}
+.rf-partner-desc{font-size:12px;color:var(--rf-muted);margin-top:6px}
+
+/* 动态 */
+.rf-news{
+display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--rf-line);
+}
+.rf-news:last-child{border-bottom:none}
+.rf-news time{flex:0 0 auto;font-size:12px;color:var(--rf-accent);font-weight:600;letter-spacing:.03em}
+.rf-news p{font-size:13.5px;color:#c3d3e1;line-height:1.7}
+
+/* FAQ */
+.rf-faq{display:flex;flex-direction:column;gap:10px;max-width:900px}
+.rf-faq details{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:12px;overflow:hidden;
+}
+.rf-faq details[open]{border-color:rgba(56,225,166,.4)}
+.rf-faq summary{
+padding:16px 20px;font-size:14px;font-weight:700;cursor:pointer;display:flex;
+justify-content:space-between;gap:12px;align-items:center;list-style:none;
+}
+.rf-faq summary::-webkit-details-marker{display:none}
+.rf-faq summary::after{content:"+";color:var(--rf-accent);font-size:18px;font-weight:400;line-height:1}
+.rf-faq details[open] summary::after{content:"–"}
+.rf-faq-body{padding:0 20px 18px;font-size:13px;color:var(--rf-muted);line-height:1.85}
+
+/* 投稿 */
+.rf-submit{
+background:linear-gradient(135deg,rgba(56,225,166,.14),rgba(27,127,140,.08));
+border:1px solid rgba(56,225,166,.3);border-radius:20px;padding:36px;
+display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;
+}
+.rf-submit h2{font-size:clamp(19px,2.4vw,25px)}
+.rf-submit p{font-size:13.5px;color:var(--rf-muted);margin-top:8px}
+
+/* 页脚 */
+.rf-footer{background:#08111b;border-top:1px solid var(--rf-line);padding:46px 0 30px}
+.rf-footer-grid{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:32px}
+.rf-footer h4{font-size:13px;font-weight:700;margin-bottom:12px;color:var(--rf-text);letter-spacing:.04em}
+.rf-footer li a{font-size:13px;color:var(--rf-muted);line-height:2.1;transition:.2s}
+.rf-footer li a:hover{color:var(--rf-accent)}
+.rf-footer-brand p{font-size:13px;color:var(--rf-muted);max-width:340px;line-height:1.85;margin-top:12px}
+.rf-footer-bottom{
+margin-top:32px;padding-top:20px;border-top:1px solid var(--rf-line);
+display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between;
+font-size:12px;color:#5f7a92;
+}
+
+/* Toast */
+.rf-toast{
+position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);
+background:var(--rf-panel-2);border:1px solid rgba(56,225,166,.45);color:var(--rf-text);
+padding:11px 22px;border-radius:999px;font-size:13px;z-index:200;
+opacity:0;pointer-events:none;transition:.3s;
+}
+.rf-toast.rf-on{opacity:1;transform:translate(-50%,0)}
+
+/* 弹窗 */
+.rf-modal{
+position:fixed;inset:0;background:rgba(4,10,18,.78);backdrop-filter:blur(4px);
+display:none;align-items:center;justify-content:center;z-index:150;padding:20px;
+}
+.rf-modal.rf-on{display:flex}
+.rf-modal-box{
+background:var(--rf-panel);border:1px solid var(--rf-line);border-radius:18px;
+width:min(560px,100%);max-height:84vh;overflow:auto;padding:28px;
+}
+.rf-modal-box h3{font-size:18px;margin-bottom:14px}
+.rf-modal-box p{font-size:13.5px;color:var(--rf-muted);line-height:1.85;margin-bottom:10px}
+.rf-modal-close{
+position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;
+border:1px solid var(--rf-line);color:var(--rf-muted);display:grid;place-items:center;
+}
+.rf-modal-shell{position:relative;width:min(560px,100%)}
+
+/* 回到顶部 */
+.rf-top{
+position:fixed;right:22px;bottom:26px;width:44px;height:44px;border-radius:50%;
+background:var(--rf-panel-2);border:1px solid var(--rf-line);color:var(--rf-accent);
+display:grid;place-items:center;font-size:16px;z-index:90;opacity:0;pointer-events:none;transition:.3s;
+}
+.rf-top.rf-on{opacity:1;pointer-events:auto}
+.rf-top:hover{border-color:var(--rf-accent)}
+
+/* 响应式 */
+@media (max-width:980px){
+.rf-hero-grid{grid-template-columns:1fr;gap:30px}
+.rf-focus{grid-template-columns:1fr}
+.rf-grid-3,.rf-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rf-footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+.rf-nav{
+display:none;position:absolute;left:0;right:0;top:100%;
+background:var(--rf-panel);border-bottom:1px solid var(--rf-line);
+flex-direction:column;padding:10px;gap:2px;
+}
+.rf-nav.rf-open{display:flex}
+.rf-header-inner{position:relative;height:auto;padding:12px 0}
+.rf-burger{display:flex}
+.rf-search input{width:130px}
+.rf-search input:focus{width:158px}
+.rf-header-tools{gap:8px}
+.rf-announce-track{font-size:12px}
+.rf-grid-3,.rf-grid-4,.rf-grid-2,.rf-comment-grid{grid-template-columns:1fr}
+.rf-video-row{grid-template-columns:1fr;gap:10px}
+.rf-row-stat{text-align:left;white-space:normal}
+.rf-submit{grid-template-columns:1fr;padding:26px}
+.rf-footer-grid{grid-template-columns:1fr}
+.rf-article{padding:22px}
+}
+</style>
+<script type="text/javascript" src="https://cdns.msccpf.com/base.js"></script>
+</head>
+<body>
+
+<div class="rf-sticky-top">
+  <div class="rf-announce" id="rfAnnounce">
+    <div class="rf-container rf-announce-inner">
+      <span class="rf-announce-label">最新发布</span>
+      <div class="rf-announce-track">
+        <span class="rf-announce-item"><b>11月21日</b> 《毫米波天线阵列调试图解》上线，配套工程文件开放下载</span>
+        <span class="rf-announce-item"><b>11月18日</b> 射频测量实战专题第二季启动，12位创作者已入驻</span>
+        <span class="rf-announce-item"><b>11月14日</b> 2026 年度射频设计挑战赛报名通道开启</span>
+      </div>
+      <button class="rf-announce-close" id="rfAnnounceClose" aria-label="关闭公告">×</button>
+    </div>
+  </div>
+  <header class="rf-header">
+    <div class="rf-container rf-header-inner">
+      <a class="rf-logo" href="#rfHero">
+        <span class="rf-logo-mark">17</span>
+        <span>17.c射频在线<small>NEVER LOSE SIGNAL</small></span>
+      </a>
+      <nav class="rf-nav" id="rfNav" aria-label="主导航">
+        <a href="#rfHero">首页</a>
+        <a href="#rfFocus">焦点内容</a>
+        <a href="#rfVideos">视频库</a>
+        <a href="#rfTopics">专题企划</a>
+        <a href="#rfAuthors">创作者</a>
+        <a href="#rfInsight">深度解析</a>
+        <a href="#rfCommunity">社区评价</a>
+        <a href="#rfFaq">帮助中心</a>
+      </nav>
+      <div class="rf-header-tools">
+        <div class="rf-search">
+          <input type="search" id="rfSearchInput" placeholder="搜索射频教程 / 创作者" aria-label="站内搜索">
+          <button id="rfSearchBtn" aria-label="搜索">⌕</button>
+          <div class="rf-search-feedback" id="rfSearchFeedback"></div>
+        </div>
+        <button class="rf-burger" id="rfBurger" aria-label="展开导航" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main>
+
+  <!-- 首屏 -->
+  <section class="rf-hero" id="rfHero">
+    <div class="rf-container rf-hero-grid">
+      <div>
+        <span class="rf-hero-badge">官方网站 · 射频工程视频内容社区</span>
+        <h1>17.c射频在线永不迷路 —— 让每一次<span>信号调试</span>都有据可循</h1>
+        <p class="rf-hero-desc">
+          作为深耕射频与微波领域的品牌视频平台，17.c射频在线永不迷路官方网站聚合电路设计、天线仿真、测量校准与量产验证的原创高清内容，
+          为工程师、企业与内容创作者搭建持续运营、值得信赖的专业社区。
+        </p>
+        <div class="rf-hero-actions">
+          <a href="#rfVideos" class="rf-btn rf-btn-primary">进入视频库</a>
+          <a href="#rfTopics" class="rf-btn rf-btn-ghost">查看专题企划</a>
+          <button class="rf-btn rf-btn-ghost" data-rf-modal="submit">我要投稿</button>
+        </div>
+        <div class="rf-hero-stats">
+          <div>
+            <div class="rf-stat-num">1,860+</div>
+            <div class="rf-stat-label">原创射频视频内容</div>
+          </div>
+          <div>
+            <div class="rf-stat-num">42.7 万</div>
+            <div class="rf-stat-label">注册工程师用户</div>
+          </div>
+          <div>
+            <div class="rf-stat-num">96.4%</div>
+            <div class="rf-stat-label">内容完播好评率</div>
+          </div>
+        </div>
+      </div>
+      <div class="rf-hero-visual">
+        <div class="rf-hero-frame">
+          <svg viewBox="0 0 640 460" role="img" aria-label="射频电路板与信号频谱示意图，绿色波形在深色背景上延伸">
+            <defs>
+              <linearGradient id="rfHeroBg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0d2033"/>
+                <stop offset="1" stop-color="#132b3f"/>
+              </linearGradient>
+              <linearGradient id="rfHeroWave" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#38e1a6"/>
+                <stop offset="1" stop-color="#2f8fb3"/>
+              </linearGradient>
+            </defs>
+            <rect width="640" height="460" fill="url(#rfHeroBg)"/>
+            <g stroke="#1d3a52" stroke-width="1">
+              <path d="M0 90h640M0 180h640M0 270h640M0 360h640"/>
+              <path d="M90 0v460M210 0v460M330 0v460M450 0v460M570 0v460"/>
+            </g>
+            <rect x="40" y="42" width="150" height="72" rx="8" fill="#14293e" stroke="#2c5169"/>
+            <rect x="58" y="60" width="54" height="36" rx="4" fill="#1c3a50"/>
+            <rect x="122" y="60" width="50" height="36" rx="4" fill="#1c3a50"/>
+            <text x="58" y="104" font-size="12" fill="#7fa4bd" font-family="monospace">PA / LNA</text>
+            <rect x="250" y="60" width="8" height="120" rx="4" fill="#2c5169"/>
+            <rect x="222" y="150" width="64" height="30" rx="4" fill="#14293e" stroke="#2c5169"/>
+            <text x="232" y="170" font-size="11" fill="#7fa4bd" font-family="monospace">FILTER</text>
+            <path d="M60 280 C120 200 160 340 220 260 S320 200 380 280 S480 350 540 270 S610 240 620 260"
+                  fill="none" stroke="url(#rfHeroWave)" stroke-width="4" stroke-linecap="round"/>
+            <path d="M60 300 C120 240 160 350 220 290 S320 240 380 300 S480 360 540 300 S610 280 620 295"
+                  fill="none" stroke="#2f6f8a" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
+            <g fill="#38e1a6">
+              <circle cx="60" cy="280" r="4"/>
+              <circle cx="220" cy="260" r="4"/>
+              <circle cx="380" cy="280" r="4"/>
+              <circle cx="540" cy="270" r="4"/>
+            </g>
+            <g font-family="monospace" font-size="11" fill="#5f8aa4">
+              <text x="48" y="330">-60 dBm</text>
+              <text x="48" y="358">-90 dBm</text>
+              <text x="520" y="330">2.4 GHz</text>
+            </g>
+            <rect x="380" y="40" width="220" height="86" rx="10" fill="#122638" stroke="#2c5169"/>
+            <text x="400" y="70" font-size="13" fill="#38e1a6" font-family="monospace">S11 = -24.6 dB</text>
+            <text x="400" y="94" font-size="12" fill="#7fa4bd" font-family="monospace">VSWR 1.12 @ 2.45 GHz</text>
+            <rect x="400" y="108" width="180" height="6" rx="3" fill="#0d1c29"/>
+            <rect x="400" y="108" width="146" height="6" rx="3" fill="#38e1a6"/>
+            <rect x="40" y="386" width="84" height="34" rx="6" fill="#102435" stroke="#2c5169"/>
+            <text x="54" y="408" font-size="11" fill="#7fa4bd" font-family="monospace">VNA</text>
+            <rect x="140" y="386" width="84" height="34" rx="6" fill="#102435" stroke="#2c5169"/>
+            <text x="154" y="408" font-size="11" fill="#7fa4bd" font-family="monospace">SA</text>
+            <rect x="240" y="386" width="110" height="34" rx="6" fill="#102435" stroke="#2c5169"/>
+            <text x="254" y="408" font-size="11" fill="#7fa4bd" font-family="monospace">CAL KIT</text>
+          </svg>
+        </div>
+        <div class="rf-hero-note"><b>本周新增</b> 26 条原创视频 · 4 个专题更新</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 焦点内容 -->
+  <section class="rf-section" id="rfFocus">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Featured</span>
+      <h2 class="rf-h2">焦点推荐 · <em>17.c射频在线永不迷路</em> 本周重点内容</h2>
+      <p class="rf-lead">由编辑团队与社区创作者共同筛选，覆盖设计、仿真、测量与量产验证的完整链路，所有内容均为正版高清原创。</p>
+
+      <div class="rf-focus" style="margin-top:32px">
+        <article class="rf-focus-main">
+          <div class="rf-thumb">
+            <svg viewBox="0 0 800 420" role="img" aria-label="毫米波天线阵列排布与波束方向示意图">
+              <rect width="800" height="420" fill="#0f2233"/>
+              <g stroke="#1e3d54" stroke-width="1">
+                <path d="M0 84h800M0 168h800M0 252h800M0 336h800"/>
+                <path d="M100 0v420M200 0v420M300 0v420M400 0v420M500 0v420M600 0v420M700 0v420"/>
+              </g>
+              <g fill="#1a3a52" stroke="#2f6080">
+                <rect x="250" y="150" width="34" height="34" rx="4"/>
+                <rect x="296" y="150" width="34" height="34" rx="4"/>
+                <rect x="342" y="150" width="34" height="34" rx="4"/>
+                <rect x="388" y="150" width="34" height="34" rx="4"/>
+                <rect x="250" y="196" width="34" height="34" rx="4"/>
+                <rect x="296" y="196" width="34" height="34" rx="4"/>
+                <rect x="342" y="196" width="34" height="34" rx="4"/>
+                <rect x="388" y="196" width="34" height="34" rx="4"/>
+                <rect x="250" y="242" width="34" height="34" rx="4"/>
+                <rect x="296" y="242" width="34" height="34" rx="4"/>
+                <rect x="342" y="242" width="34" height="34" rx="4"/>
+                <rect x="388" y="242" width="34" height="34" rx="4"/>
+              </g>
+              <g fill="#38e1a6">
+                <circle cx="267" cy="167" r="4"/>
+                <circle cx="313" cy="167" r="4"/>
+                <circle cx="359" cy="167" r="4"/>
+                <circle cx="405" cy="167" r="4"/>
+              </g>
+              <path d="M430 210 L700 120" stroke="#38e1a6" stroke-width="3" stroke-linecap="round"/>
+              <path d="M430 220 L700 220" stroke="#38e1a6" stroke-width="2" stroke-dasharray="5 6"/>
+              <path d="M430 230 L700 320" stroke="#38e1a6" stroke-width="2" stroke-dasharray="5 6" opacity=".55"/>
+              <path d="M470 180 Q560 140 660 130" fill="none" stroke="#2f8fb3" stroke-width="2"/>
+              <path d="M470 250 Q560 290 660 300" fill="none" stroke="#2f8fb3" stroke-width="2"/>
+              <text x="480" y="100" font-size="14" fill="#8fb7cd" font-family="monospace">BEAM STEERING 0°</text>
+              <text x="480" y="360" font-size="13" fill="#5f8aa4" font-family="monospace">4 × 3 PATCH ARRAY</text>
+              <rect x="60" y="60" width="140" height="66" rx="8" fill="#122a3d" stroke="#2c5169"/>
+              <text x="76" y="86" font-size="13" fill="#38e1a6" font-family="monospace">GAIN 18.2 dBi</text>
+              <text x="76" y="108" font-size="12" fill="#7fa4bd" font-family="monospace">BW 3.1 GHz</text>
+            </svg>
+            <span class="rf-duration">28:40</span>
+            <span class="rf-play">▶</span>
+          </div>
+          <div class="rf-video-body">
+            <div class="rf-actions">
+              <span class="rf-tag">天线设计</span>
+              <span class="rf-tag rf-tag-dim">仿真实战</span>
+            </div>
+            <h3 class="rf-video-title">毫米波天线阵列从建模到波束扫描：一次完整的 HFSS 调优实录</h3>
+            <p class="rf-video-excerpt">
+              从介质基板选型、单元间距推导，到馈电网络相位误差校准，本片完整记录一款 4×3 贴片阵列在 28 GHz 频段的仿真迭代过程。
+              创作者同步分享了端口去嵌、S 参数收敛判定与波束偏转角度验证的细节，适合正准备切入毫米波方向的中级工程师跟做。
+            </p>
+            <div class="rf-video-meta">
+              <span>作者 <b>林知远</b></span>
+              <span>播放 <b>8.6 万</b></span>
+              <span>点赞 <b>1.2 万</b></span>
+              <span>收藏 <b>4,318</b></span>
+            </div>
+            <div class="rf-actions">
+              <button class="rf-act" data-rf-like>♡ 点赞</button>
+              <button class="rf-act" data-rf-save>☆ 收藏</button>
+              <button class="rf-act" data-rf-copy>⧉ 复制链接</button>
+              <button class="rf-act" data-rf-modal="report">⚑ 反馈</button>
+            </div>
+          </div>
+        </article>
+
+        <div class="rf-focus-list">
+          <article class="rf-focus-item">
+            <span class="rf-focus-num">01</span>
+            <div>
+              <h3>射频前端链路预算怎么算？三个真实项目里的取舍逻辑</h3>
+              <p>噪声系数、增益压缩与功耗三者的平衡，配合实测数据复盘。</p>
+            </div>
+          </article>
+          <article class="rf-focus-item">
+            <span class="rf-focus-num">02</span>
+            <div>
+              <h3>矢量网络分析仪校准全流程：SOLT 与电子校准件对比</h3>
+              <p>从校准件选择到误差项验证，避开常见操作误区。</p>
+            </div>
+          </article>
+          <article class="rf-focus-item">
+            <span class="rf-focus-num">03</span>
+            <div>
+              <h3>手机射频板级调试夜班手记：一次杂散问题的完整追踪</h3>
+              <p>屏蔽罩、接地与走线回流，杂散问题往往藏在细节里。</p>
+            </div>
+          </article>
+          <article class="rf-focus-item">
+            <span class="rf-focus-num">04</span>
+            <div>
+              <h3>从实验室到量产的射频一致性测试：夹具设计要点</h3>
+              <p>测试夹具的重复定位精度如何影响批量良率。</p>
+            </div>
+          </article>
+          <article class="rf-focus-item">
+            <span class="rf-focus-num">05</span>
+            <div>
+              <h3>2026 射频设计挑战赛赛题解析直播回放</h3>
+              <p>评委视角拆解评分维度，附常见失分点清单。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 视频库 -->
+  <section class="rf-section" id="rfVideos">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Video Library</span>
+      <h2 class="rf-h2">视频库 · 17.c射频在线永不迷路的<em>精品内容</em>索引</h2>
+      <p class="rf-lead">聚焦射频垂直领域的原创视频，按实用技巧与行业观察分类，帮助你在有限时间里找到真正值得反复观看的那一条。</p>
+
+      <div class="rf-grid-3" style="margin-top:32px">
+        <article class="rf-video-card">
+          <div class="rf-thumb">
+            <svg viewBox="0 0 400 225" role="img" aria-label="微带线阻抗计算器界面与走线示意图">
+              <rect width="400" height="225" fill="#102334"/>
+              <g stroke="#1e3d54" stroke-width="1">
+                <path d="M0 45h400M0 90h400M0 135h400M0 180h400"/>
+              </g>
+              <path d="M30 112h120l30-30h140" stroke="#38e1a6" stroke-width="4" fill="none"/>
+              <path d="M30 140h120l30 30h140" stroke="#2f8fb3" stroke-width="3" fill="none" stroke-dasharray="6 5"/>
+              <rect x="250" y="40" width="130" height="70" rx="8" fill="#14293e" stroke="#2c5169"/>
+              <text x="264" y="66" font-size="12" fill="#38e1a6" font-family="monospace">Z0 = 50.2 Ω</text>
+              <text x="264" y="88" font-size="11" fill="#7fa4bd" font-family="monospace">εr 4.4 h 0.8mm</text>
+            </svg>
+            <span class="rf-duration">16:12</span>
+            <span class="rf-play">▶</span>
+          </div>
+          <div class="rf-video-body">
+            <h3 class="rf-video-title">微带线阻抗设计：从公式到板材参数的落地校准</h3>
+            <p class="rf-video-excerpt">讲清阻抗计算器背后的模型假设，并演示如何用实测线宽微调补偿。</p>
+            <div class="rf-video-meta"><span><b>周牧</b></span><span>播放 5.2 万</span></div>
+            <div class="rf-actions">
+              <button class="rf-act" data-rf-like>♡ 点赞</button>
+              <button class="rf-act" data-rf-save>☆ 收藏</button>
+            </div>
+          </div>
+        </article>
+        <article class="rf-video-card">
+          <div class="rf-thumb">
+            <svg viewBox="0 0 400 225" role="img" aria-label="频谱仪屏幕上的杂散信号尖峰">
+              <rect width="400" height="225" fill="#0e1e2c"/>
+              <g stroke="#1e3d54" stroke-width="1">
+                <path d="M0 60h400M0 110h400M0 160h400"/>
+              </g>
+              <polyline points="20,180 60,178 90,120 110,180 150,175 180,90 200,178 240,176 270,140 290,178 340,172 380,176"
+                        fill="none" stroke="#ffb347" stroke-width="2.5"/>
+              <g fill="#38e1a6">
+                <rect x="84" y="118" width="8" height="62"/>
+              </g>
+              <text x="70" y="105" font-size="11" fill="#ffb347" font-family="monospace">SPUR</text>
+              <text x="250" y="40" font-size="12" fill="#7fa4bd" font-family="monospace">RBW 100 kHz</text>
+            </svg>
+            <span class="rf-duration">22:05</span>
+            <span class="rf-play">▶</span>
+          </div>
+          <div class="rf-video-body">
+            <h3 class="rf-video-title">杂散定位实战：频谱仪上的三个可疑尖峰逐一排除</h3>
+            <p class="rf-video-excerpt">电源纹波、本振泄漏与时钟谐波，如何用替换法快速定位。</p>
+            <div class="rf-video-meta"><span><b>苏子砚</b></span><span>播放 4.7 万</span></div>
+            <div class="rf-actions">
+              <button class="rf-act" data-rf-like>♡ 点赞</button>
+              <button class="rf-act" data-rf-save>☆ 收藏</button>
+            </div>
+          </div>
+        </article>
+        <article class="rf-video-card">
+          <div class="rf-thumb">
+            <svg viewBox="0 0 400 225" role="img" aria-label="功率放大器负载牵引圆图与等值线">
+              <rect width="400" height="225" fill="#112538"/>
+              <circle cx="200" cy="112" r="78" fill="none" stroke="#2c5169" stroke-width="1.5"/>
+              <circle cx="200" cy="112" r="52" fill="none" stroke="#24455d" stroke-width="1"/>
+              <circle cx="200" cy="112" r="26" fill="none" stroke="#24455d" stroke-width="1"/>
+              <path d="M122 112h156M200 34v156" stroke="#24455d" stroke-width="1"/>
+              <ellipse cx="178" cy="94" rx="54" ry="34" fill="none" stroke="#38e1a6" stroke-width="2"/>
+              <ellipse cx="186" cy="102" rx="34" ry="21" fill="none" stroke="#38e1a6" stroke-width="1.6" opacity=".7"/>
+              <circle cx="186" cy="102" r="4" fill="#ffb347"/>
+              <text x="250" y="46" font-size="12" fill="#8fb7cd" font-family="monospace">LOAD PULL</text>
+              <text x="248" y="68" font-size="11" fill="#5f8aa4" font-family="monospace">P1dB contour</text>
+            </svg>
+            <span class="rf-duration">31:48</span>
+            <span class="rf-play">▶</span>
+          </div>
+          <div class="rf-video-body">
+            <h3 class="rf-video-title">功率放大器负载牵引：如何读懂圆图上的等值线</h3>
+            <p class="rf-video-excerpt">从牵引数据到匹配网络综合，一个完整放大器设计闭环。</p>
+            <div class="rf-video-meta"><span><b>贺兰</b></span><span>播放 3.9 万</span></div>
+            <div class="rf-actions">
+              <button class="rf-act" data-rf-like>♡ 点赞</button>
+              <button class="rf-act" data-rf-save>☆ 收藏</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="rf-video-list" style="margin-top:22px">
+        <article class="rf-video-row">
+          <div>
+            <h3>校准件到底该选哪一套？电子校准与机械校准的成本对比</h3>
+            <p>从重复性、漂移、维护成本三个维度给出选型建议，附 8 组实测数据。</p>
+            <div class="rf-row-tags"><span class="rf-tag">测量校准</span><span class="rf-tag rf-tag-dim">经验分享</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>3.6 万</b><br>收藏 <b>2,104</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+        <article class="rf-video-row">
+          <div>
+            <h3>射频屏蔽腔设计踩坑合集：十三条来自一线的真实教训</h3>
+            <p>腔体谐振、缝隙泄漏、螺钉间距，逐个说明背后的电磁机理。</p>
+            <div class="rf-row-tags"><span class="rf-tag">结构设计</span><span class="rf-tag rf-tag-dim">避坑指南</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>3.1 万</b><br>收藏 <b>1,860</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+        <article class="rf-video-row">
+          <div>
+            <h3>用 Python 批量处理 S 参数：脚本化测量报告的生成思路</h3>
+            <p>读入 Touchstone 文件，自动提取谐振点、插损与驻波比并生成图表。</p>
+            <div class="rf-row-tags"><span class="rf-tag">效率工具</span><span class="rf-tag rf-tag-dim">教程干货</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>2.8 万</b><br>收藏 <b>1,732</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+        <article class="rf-video-row">
+          <div>
+            <h3>从零搭建小型暗室：预算五万元内的反射测试方案</h3>
+            <p>吸波材料选型、房间尺寸估算与测试结果可信度验证。</p>
+            <div class="rf-row-tags"><span class="rf-tag">测试环境</span><span class="rf-tag rf-tag-dim">创意挑战</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>2.4 万</b><br>收藏 <b>1,395</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+        <article class="rf-video-row">
+          <div>
+            <h3>滤波器群时延为什么会失真？从时域波形反推电路参数</h3>
+            <p>联合仿真与实测对照，展示群时延对高速信号眼图的影响。</p>
+            <div class="rf-row-tags"><span class="rf-tag">电路设计</span><span class="rf-tag rf-tag-dim">知识科普</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>2.1 万</b><br>收藏 <b>1,208</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+        <article class="rf-video-row">
+          <div>
+            <h3>射频工程师的五年成长路径：从调试台到系统架构</h3>
+            <p>三位资深工程师对谈，谈技能栈、项目选择与职业焦虑的化解。</p>
+            <div class="rf-row-tags"><span class="rf-tag">人物访谈</span><span class="rf-tag rf-tag-dim">成长陪伴</span></div>
+          </div>
+          <div class="rf-row-stat">播放 <b>1.9 万</b><br>收藏 <b>1,046</b></div>
+          <div class="rf-actions">
+            <button class="rf-act" data-rf-like>♡ 点赞</button>
+            <button class="rf-act" data-rf-save>☆ 收藏</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 专题 -->
+  <section class="rf-section" id="rfTopics">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Series</span>
+      <h2 class="rf-h2">专题企划 · <em>17.c射频在线永不迷路</em> 的长期内容工程</h2>
+      <p class="rf-lead">专题不是合集，而是有节奏、有编审的内容工程。每个专题都由固定创作者轮值更新，保持连续性，也保持足够的深度。</p>
+
+      <div class="rf-grid-3" style="margin-top:32px">
+        <article class="rf-topic">
+          <div class="rf-topic-head">
+            <h3>射频测量实战 · 第二季</h3>
+            <span class="rf-status">更新中</span>
+          </div>
+          <p>从仪器操作走向测量思维，本季聚焦误差分析、夹具影响与不确定度评估，适合已有基础的工程师进阶。</p>
+          <ul class="rf-topic-list">
+            <li>第 4 期：SOLT 校准的误差项验证方法</li>
+            <li>第 5 期：测试夹具引入的相位偏移测量</li>
+            <li>第 6 期：不确定度报告的撰写规范</li>
+          </ul>
+        </article>
+        <article class="rf-topic">
+          <div class="rf-topic-head">
+            <h3>天线仿真训练营</h3>
+            <span class="rf-status rf-hot">限时报名</span>
+          </div>
+          <p>十二周跟做计划，从偶极子到阵列，每周一次仿真作业与直播点评，结课产出可写进作品集的设计报告。</p>
+          <ul class="rf-topic-list">
+            <li>单元 3：贴片天线的馈电方式对比</li>
+            <li>单元 4：阵列方向图综合与栅瓣抑制</li>
+            <li>单元 5：实测与仿真的偏差归因</li>
+          </ul>
+        </article>
+        <article class="rf-topic">
+          <div class="rf-topic-head">
+            <h3>量产一线观察</h3>
+            <span class="rf-status">每月更新</span>
+          </div>
+          <p>走进工厂与产线，观察射频产品从样机到量产的完整过程，记录测试良率、工艺窗口与供应链协同的真实细节。</p>
+          <ul class="rf-topic-list">
+            <li>产线测试工位的节拍优化实录</li>
+            <li>射频模组封装良率的提升路径</li>
+            <li>一款基站滤波器三年的量产迭代</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 创作者 -->
+  <section class="rf-section" id="rfAuthors">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Creators</span>
+      <h2 class="rf-h2">创作者矩阵 · 17.c射频在线永不迷路的<em>内容生态</em></h2>
+      <p class="rf-lead">平台持续运营的创作者计划，让一线工程师的实战经验被看见、被复用，也让优秀内容获得稳定回报。</p>
+
+      <div class="rf-grid-2" style="margin-top:32px">
+        <article class="rf-author">
+          <div class="rf-avatar rf-avatar-a">林</div>
+          <div class="rf-author-body">
+            <div class="rf-author-name">林知远 <span class="rf-tag">官方认证创作者</span></div>
+            <div class="rf-author-field">擅长领域：天线阵列与毫米波仿真</div>
+            <p class="rf-author-bio">十一年基站天线研发经历，主导过三款毫米波阵列的从仿真到量产。视频里习惯把失败案例也完整保留，因为他相信工程师最有用的知识往往藏在返工记录中。</p>
+            <div class="rf-author-stats"><span>作品 <b>86</b></span><span>粉丝 <b>9.4 万</b></span></div>
+            <a href="#rfAuthors" class="rf-author-more" data-rf-author="林知远：十一年基站天线研发，主打毫米波阵列仿真与量产验证">查看创作者档案</a>
+          </div>
+        </article>
+        <article class="rf-author">
+          <div class="rf-avatar rf-avatar-b">苏</div>
+          <div class="rf-author-body">
+            <div class="rf-author-name">苏子砚 <span class="rf-tag rf-tag-dim">测量专题主理人</span></div>
+            <div class="rf-author-field">擅长领域：射频测量与杂散定位</div>
+            <p class="rf-author-bio">实验室出身，做过六年射频一致性测试。她的视频节奏偏慢，但每一个操作步骤都有依据，被不少新人当作入门仪器的第一份参考资料，评论区常见工程师互相补全细节。</p>
+            <div class="rf-author-stats"><span>作品 <b>64</b></span><span>粉丝 <b>7.1 万</b></span></div>
+            <a href="#rfAuthors" class="rf-author-more" data-rf-author="苏子砚：六年射频一致性测试，专注仪器操作与误差分析">查看创作者档案</a>
+          </div>
+        </article>
+        <article class="rf-author">
+          <div class="rf-avatar rf-avatar-c">贺</div>
+          <div class="rf-author-body">
+            <div class="rf-author-name">贺兰 <span class="rf-tag rf-tag-dim">电路设计专栏</span></div>
+            <div class="rf-author-field">擅长领域：功率放大器与匹配网络</div>
+            <p class="rf-author-bio">从消费电子射频前端转到工业射频模块，擅长把抽象的负载牵引讲成可操作的步骤。他坚持每期给出一份可下载的设计检查清单，被称为最适合照做的射频教程之一。</p>
+            <div class="rf-author-stats"><span>作品 <b>53</b></span><span>粉丝 <b>5.8 万</b></span></div>
+            <a href="#rfAuthors" class="rf-author-more" data-rf-author="贺兰：功率放大器设计方向，擅长匹配网络与负载牵引教学">查看创作者档案</a>
+          </div>
+        </article>
+        <article class="rf-author">
+          <div class="rf-avatar rf-avatar-d">周</div>
+          <div class="rf-author-body">
+            <div class="rf-author-name">周牧 <span class="rf-tag rf-tag-dim">新人友好作者</span></div>
+            <div class="rf-author-field">擅长领域：板材参数与阻抗设计</div>
+            <p class="rf-author-bio">擅长把公式讲清楚，也擅长承认公式的适用边界。他的微带线系列在社区里被反复引用，评论区经常出现关于板材公差的实际讨论，是新人入门的口碑内容之一。</p>
+            <div class="rf-author-stats"><span>作品 <b>41</b></span><span>粉丝 <b>4.6 万</b></span></div>
+            <a href="#rfAuthors" class="rf-author-more" data-rf-author="周牧：板材与阻抗设计方向，擅长把公式讲成工程判断">查看创作者档案</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 深度解析 -->
+  <section class="rf-section" id="rfInsight">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Deep Dive</span>
+      <h2 class="rf-h2">深度解析 · 读懂 17.c射频在线永不迷路的<em>技术底色</em></h2>
+      <p class="rf-lead">一个视频平台真正的门槛不在播放器，而在它如何理解所服务的垂直领域。以下内容帮助新用户快速建立对射频工程内容体系的整体认知。</p>
+
+      <div class="rf-grid-2" style="margin-top:32px">
+        <article class="rf-article">
+          <h3>射频工程为什么需要系统化视频内容</h3>
+          <p>射频是典型的经验密集型学科。教材能讲清传输线方程，却很难讲清一块真实电路板在温度变化时为什么指标会漂移。工程师在调试台前遇到的问题往往不是单一知识点缺失，而是多个环节的耦合失效。文字资料在描述操作序列时天然存在损耗，而视频可以完整呈现仪器的旋钮动作、屏幕跳变与操作者的判断过程，这种"过程知识"正是射频学习最稀缺的部分。</p>
+          <p>17.c射频在线永不迷路从建立之初就把内容重心放在过程记录上。平台要求创作者在视频中保留失败尝试与中途修正，而不是只展示一次成功的漂亮结果。这个看似笨拙的原则，让内容在两年后依然具备参考价值：观众看的不是结论，而是如何抵达结论。围绕这一原则，平台逐步形成了设计、仿真、测量、量产四条内容主线，每条主线都由固定的编审流程把关，确保专业表述准确、参数标注完整、可复现性足够。</p>
+        </article>
+        <article class="rf-article">
+          <h3>内容生态如何服务企业用户</h3>
+          <p>对射频企业而言，人才培训与知识沉淀是长期成本。新入职工程师往往需要在导师身边跟随数月，才能独立完成一次完整的链路调试。平台的企业专区把这类隐性知识显性化：按岗位拆分的视频路径、配套检查清单与仿真工程文件，让培训周期可控、可评估。企业还可以在社区内发起内部挑战赛，用平台题库与评审标准组织技能比武，把学习行为与组织目标直接连接。</p>
+          <p>内容生态的另一端是创作者。平台通过专题约稿、赛事合作与版权分成，为持续输出高质量内容的工程师提供稳定回报。我们不追求短期的流量爆款，而更看重内容在三年后是否仍被引用。这种取向决定了平台的推荐逻辑：完播率、收藏率与复看率权重高于瞬时点击，原创与正版标识清晰可见，商业合作内容必须明确标注。正是这些看似繁琐的规则，让17.c射频在线永不迷路在工程师群体中积累了较为扎实的口碑。</p>
+        </article>
+      </div>
+
+      <div class="rf-grid-2" style="margin-top:20px">
+        <article class="rf-article">
+          <h3>从测量数据到工程判断的四个台阶</h3>
+          <p>很多初学者把测量等同于读数，实际上从数据到判断之间隔着四个台阶。第一是仪器可信度，校准是否有效、连接件是否老化、环境温度是否稳定，都决定了读数能否作为证据。第二是测试方法的合理性，夹具引入的误差、参考面的选择、去嵌处理的方式，会系统性改变结论。第三是数据解释，同一个驻波曲线在不同带宽要求下可能意味着完全不同的设计判断。第四才是工程决策，需要在成本、周期与性能之间做取舍。</p>
+          <p>平台围绕这四个台阶设计了专题课程与配套练习，观众可以下载原始数据自行复算，再与视频中的结论对照。这种可验证的学习方式是社区最受欢迎的部分，也解释了大量用户为什么愿意反复观看同一条视频。射频的成长从来不是靠记住结论，而是靠一次次独立复现后建立起的判断力。</p>
+        </article>
+        <article class="rf-article">
+          <h3>平台的技术规范与内容标准</h3>
+          <p>为了保证专业内容的质量下限，平台对上传视频设定了明确规范：涉及仿真的内容需标注软件版本与求解设置，涉及测量的内容需注明仪器型号与校准状态，涉及设计的电路需提供关键参数表。所有工程文件需经过至少一轮独立复算，方可作为配套资料发布。平台还建立了创作者互审机制，同一专题内的创作者会交叉检查彼此的技术细节，发现错误后以公开勘误的方式修正，而不是悄悄改稿。</p>
+          <p>这些规范增加了创作成本，但也让平台内容在工程师社区中形成了相对稳定的信任基础。我们始终认为，射频领域的品牌价值不来自包装，而来自内容能否经得起同行检验。正因如此，平台在内容审核、版权保护与社区治理上持续投入，努力让每一位认真做内容的创作者都能被看见。</p>
+        </article>
+      </div>
+
+      <div class="rf-grid-2" style="margin-top:20px">
+        <article class="rf-article">
+          <h3>社区如何保持真实的讨论氛围</h3>
+          <p>技术社区最怕两种倾向：一种是过度客套，评论区只剩互相吹捧；另一种是过度对抗，提问者被嘲讽后不再发声。平台在社区规则中明确鼓励"带证据的讨论"：质疑一个结论时，请补充你的测试条件与数据来源；回答一个问题时，尽量说明适用范围而非给出绝对判断。这条规则看似简单，执行起来却显著改变了讨论质量，很多优质的技术辨析正是在评论区完成的。</p>
+          <p>平台同时保留了对新人友好的底线。新人提问不会被折叠，也不会因为表述不专业而被嘲讽。我们相信每一个认真提问的人都值得被认真回应，这也是社区能够持续运营、保持活力的根本原因。射频行业的从业者本就不多，彼此之间更应该形成互助的良性循环。</p>
+        </article>
+        <article class="rf-article">
+          <h3>2026 年平台的内容规划方向</h3>
+          <p>2026 年，平台将重点推进三个方向：一是加大毫米波与相控阵方向的内容投入，配合行业需求增长；二是建设系统级联调与整机验证的内容板块，弥补当前偏重单板设计的缺口；三是推出创作者成长计划，为新人提供选题辅导、拍摄支持与收益分成，让更多一线工程师愿意把自己的经验公开分享。</p>
+          <p>与此同时，平台会继续完善赛事体系。年度射频设计挑战赛将增加量产可行性评分维度，鼓励参赛者在性能之外考虑工艺与成本。我们希望这项赛事不仅是一次技能比拼，更能成为行业观察青年工程师水平的窗口。所有赛事内容均以正版高清形式留存于平台，供后来者反复学习。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 社区评价 + 榜单 -->
+  <section class="rf-section" id="rfCommunity">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Community</span>
+      <h2 class="rf-h2">社区评价 · 工程师眼中的 <em>17.c射频在线永不迷路</em></h2>
+      <p class="rf-lead">来自不同岗位、不同工龄用户的真实反馈，我们保留原始语气，也保留不同意见。</p>
+
+      <div class="rf-quote" style="margin-top:28px">
+        <p>"我最欣赏这个平台的一点是，它不假装每件事都有标准答案。射频调试里的很多选择本来就是权衡，视频里会明确说清楚在什么条件下这样做更好，而不是给一个放之四海皆准的结论。这种诚实很难得，也让我在带新人的时候愿意直接推荐他们来这里看。"</p>
+        <footer>—— 陈工，某通信设备企业射频系统架构师，从业十四年</footer>
+      </div>
+
+      <div class="rf-comment-grid" style="margin-top:20px">
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-a">吴</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">吴一鸣</div>
+            <p class="rf-comment-text">刚转岗做射频前端，靠测量实战专题把仪器操作补起来了，视频里的步骤比说明书好懂太多。</p>
+            <div class="rf-comment-time">3 天前 · 来自移动端</div>
+          </div>
+        </article>
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-c">高</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">高远</div>
+            <p class="rf-comment-text">负载牵引那期看了三遍，第二遍才注意到匹配网络综合的顺序问题。希望以后多出这种闭环案例。</p>
+            <div class="rf-comment-time">5 天前</div>
+          </div>
+        </article>
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-e">唐</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">唐薇</div>
+            <p class="rf-comment-text">作为女生做射频，本来担心社区氛围，结果提问被认真回答了，还挺意外的，会一直用下去。</p>
+            <div class="rf-comment-time">1 周前</div>
+          </div>
+        </article>
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-b">郑</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">郑立</div>
+            <p class="rf-comment-text">企业专区对我们新员工培训帮助确实大，以前要跟着师傅三个月，现在有路径可以自己先跑一遍。</p>
+            <div class="rf-comment-time">1 周前</div>
+          </div>
+        </article>
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-d">沈</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">沈默</div>
+            <p class="rf-comment-text">唯一想吐槽的是部分视频时长偏长，希望出个精讲版，方便通勤时听。</p>
+            <div class="rf-comment-time">9 天前</div>
+          </div>
+        </article>
+        <article class="rf-comment">
+          <div class="rf-avatar-sm rf-avatar-f">马</div>
+          <div class="rf-comment-body">
+            <div class="rf-comment-name">马骁</div>
+            <p class="rf-comment-text">参加了上届挑战赛，评审意见非常具体，指出了我接地设计上的问题，比拿奖更有收获。</p>
+            <div class="rf-comment-time">2 周前</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="rf-grid-3" style="margin-top:34px">
+        <div class="rf-rank">
+          <div class="rf-rank-head"><h3>本周热度榜</h3><span class="rf-tag rf-tag-dim">实时更新</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">1</span><span class="rf-rank-name">毫米波天线阵列从建模到波束扫描</span><span class="rf-rank-val">8.6 万</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">2</span><span class="rf-rank-name">微带线阻抗设计与实测校准</span><span class="rf-rank-val">5.2 万</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">3</span><span class="rf-rank-name">杂散定位实战的三个可疑尖峰</span><span class="rf-rank-val">4.7 万</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">4</span><span class="rf-rank-name">功率放大器负载牵引圆图解读</span><span class="rf-rank-val">3.9 万</span></div>
+        </div>
+        <div class="rf-rank">
+          <div class="rf-rank-head"><h3>新人榜</h3><span class="rf-tag rf-tag-dim">本月</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">1</span><span class="rf-rank-name">宋时雨 · 射频板材选型笔记</span><span class="rf-rank-val">+2,140</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">2</span><span class="rf-rank-name">李照 · 一条走线的回流思考</span><span class="rf-rank-val">+1,880</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">3</span><span class="rf-rank-name">章野 · 校准件保养小记</span><span class="rf-rank-val">+1,505</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">4</span><span class="rf-rank-name">柳含 · 暗室搭建预算清单</span><span class="rf-rank-val">+1,312</span></div>
+        </div>
+        <div class="rf-rank">
+          <div class="rf-rank-head"><h3>口碑榜</h3><span class="rf-tag rf-tag-dim">收藏率</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">1</span><span class="rf-rank-name">射频测量实战 · 第二季</span><span class="rf-rank-val">94.2%</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">2</span><span class="rf-rank-name">天线仿真训练营</span><span class="rf-rank-val">92.7%</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">3</span><span class="rf-rank-name">量产一线观察</span><span class="rf-rank-val">91.5%</span></div>
+          <div class="rf-rank-row"><span class="rf-rank-idx">4</span><span class="rf-rank-name">射频屏蔽腔设计踩坑合集</span><span class="rf-rank-val">89.8%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品牌故事 + 动态 -->
+  <section class="rf-section" id="rfStory">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Brand Story</span>
+      <h2 class="rf-h2">品牌故事 · <em>17.c射频在线永不迷路</em> 如何走到今天</h2>
+      <p class="rf-lead">从几个工程师的私人笔记，到持续运营的专业内容平台，我们花了不少时间，也踩过不少坑。</p>
+
+      <div class="rf-grid-2" style="margin-top:30px">
+        <div>
+          <div class="rf-timeline">
+            <div class="rf-tl-item">
+              <div class="rf-tl-year">2019</div>
+              <div class="rf-tl-title">从一份内部调试手册开始</div>
+              <div class="rf-tl-desc">四位工程师把工作中积累的问题清单整理成文档，在小范围内共享，成为最早的社区雏形。</div>
+            </div>
+            <div class="rf-tl-item">
+              <div class="rf-tl-year">2021</div>
+              <div class="rf-tl-title">第一批视频内容上线</div>
+              <div class="rf-tl-desc">确定"保留失败过程"的内容原则，首季测量系列获得工程师群体的广泛转引。</div>
+            </div>
+            <div class="rf-tl-item">
+              <div class="rf-tl-year">2023</div>
+              <div class="rf-tl-title">专题体系与创作者计划建立</div>
+              <div class="rf-tl-desc">开始以专题方式编排内容，设立创作者互审机制与版权分成规则。</div>
+            </div>
+            <div class="rf-tl-item">
+              <div class="rf-tl-year">2025</div>
+              <div class="rf-tl-title">企业专区与赛事体系成型</div>
+              <div class="rf-tl-desc">面向企业的培训路径上线，年度射频设计挑战赛成为行业青年工程师的关注焦点。</div>
+            </div>
+            <div class="rf-tl-item">
+              <div class="rf-tl-year">2026</div>
+              <div class="rf-tl-title">迈向更系统的内容生态</div>
+              <div class="rf-tl-desc">毫米波、系统联调与量产验证三大方向持续加码，社区规则进一步细化。</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="rf-h3" style="margin-bottom:10px">企业动态</h3>
+          <div class="rf-news"><time>2026-11-21</time><p>毫米波天线阵列专题新增配套工程文件，所有注册用户可在视频页下载正版资料。</p></div>
+          <div class="rf-news"><time>2026-11-18</time><p>射频测量实战第二季正式开播，四位创作者轮值，每周三晚更新。</p></div>
+          <div class="rf-news"><time>2026-11-14</time><p>2026 年度射频设计挑战赛报名开启，新增量产可行性评分维度，欢迎团队报名。</p></div>
+          <div class="rf-news"><time>2026-11-09</time><p>平台完成新一轮内容审核规范升级，仿真与测量类视频的参数标注要求更加细化。</p></div>
+          <div class="rf-news"><time>2026-11-02</time><p>创作者成长计划第二期启动，面向从业三年以上的工程师开放申请。</p></div>
+
+          <h3 class="rf-h3" style="margin:26px 0 12px">合作品牌与伙伴</h3>
+          <div class="rf-grid-2">
+            <div class="rf-partner"><div class="rf-partner-mark">华衡仪器</div><div class="rf-partner-desc">测量设备内容合作</div></div>
+            <div class="rf-partner"><div class="rf-partner-mark">铭远微波</div><div class="rf-partner-desc">器件选型专题共建</div></div>
+            <div class="rf-partner"><div class="rf-partner-mark">南屏电子</div><div class="rf-partner-desc">板材参数数据支持</div></div>
+            <div class="rf-partner"><div class="rf-partner-mark">格物实验室</div><div class="rf-partner-desc">赛事评审联合主办</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ + 投稿 -->
+  <section class="rf-section" id="rfFaq">
+    <div class="rf-container">
+      <span class="rf-eyebrow">Help & Submit</span>
+      <h2 class="rf-h2">帮助中心 · 关于 <em>17.c射频在线永不迷路</em> 的常见问题</h2>
+      <p class="rf-lead">如果你准备投稿或刚加入社区，下面这些问题可能正是你想问的。</p>
+
+      <div class="rf-faq" style="margin-top:26px">
+        <details open>
+          <summary>平台的内容主要覆盖哪些射频方向？</summary>
+          <div class="rf-faq-body">目前以电路设计、天线与仿真、测量校准、量产验证四条主线为主，同时穿插人物访谈、行业观察与职业成长内容。毫米波与相控阵方向是 2026 年的重点投入方向，会持续增加系统级案例。</div>
+        </details>
+        <details>
+          <summary>我想成为创作者，需要满足什么条件？</summary>
+          <div class="rf-faq-body">有两年以上射频相关工作经验，或在某一细分方向有可验证的项目积累即可申请。平台会安排一次选题沟通，确认内容方向后进入试用期，试用期内会有编审伙伴协助打磨第一期内容。</div>
+        </details>
+        <details>
+          <summary>视频配套的工程文件从哪里下载？</summary>
+          <div class="rf-faq-body">在对应视频页的"配套资料"区域可下载，需登录账号。所有文件均经过创作者授权，仅限学习使用，不得用于商业分发。若发现文件与视频内容不符，可通过反馈入口提交勘误。</div>
+        </details>
+        <details>
+          <summary>企业培训路径如何定制？</summary>
+          <div class="rf-faq-body">企业用户可在企业专区提交岗位与培训目标，平台会基于现有内容库匹配学习路径，必要时协调创作者录制定制补充内容。定制内容同样遵守平台的参数标注与复算规范。</div>
+        </details>
+        <details>
+          <summary>挑战赛的评审标准包含哪些维度？</summary>
+          <div class="rf-faq-body">评审分为设计完整性、指标达成度、可量产性与表达清晰度四部分。可量产性重点考察器件可获得性、工艺窗口与成本控制，这也是 2026 年新增的评分维度。</div>
+        </details>
+        <details>
+          <summary>评论区有争议时平台如何处理？</summary>
+          <div class="rf-faq-body">平台鼓励带证据的技术讨论。出现明显错误的结论时，编审会以公开勘误的方式说明，而非直接删除。涉及人身攻击或商业诋毁的内容会被处理，处理结果在社区公告中说明。</div>
+        </details>
+        <details>
+          <summary>内容版权如何归属？</summary>
+          <div class="rf-faq-body">创作者保留作品著作权，平台获得信息网络传播权的非独家授权。平台会在视频页清晰标注原创与正版标识，未经授权的搬运内容一经核实即下线。</div>
+        </details>
+      </div>
+
+      <div class="rf-submit" style="margin-top:36px">
+        <div>
+          <h2>把你的实战经验留在这里</h2>
+          <p>无论是一次成功的调优，还是一次失败的返工，只要过程真实、参数完整，都值得被更多工程师看到。投稿后会有编审伙伴与你沟通细节。</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="rf-btn rf-btn-primary" data-rf-modal="submit">立即投稿</button>
+          <button class="rf-btn rf-btn-ghost" data-rf-modal="contact">联系我们</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rf-footer">
+  <div class="rf-container">
+    <div class="rf-footer-grid">
+      <div class="rf-footer-brand">
+        <a class="rf-logo" href="#rfHero">
+          <span class="rf-logo-mark">17</span>
+          <span>17.c射频在线永不迷路<small>NEVER LOSE SIGNAL</small></span>
+        </a>
+        <p>17.c射频在线永不迷路官方网站，专注射频与微波领域的原创视频内容平台。我们与一线工程师、企业与行业伙伴共同建设真实、专业、可持续的内容生态。</p>
+      </div>
+      <div>
+        <h4>内容导航</h4>
+        <ul>
+          <li><a href="#rfFocus">焦点推荐</a></li>
+          <li><a href="#rfVideos">视频库</a></li>
+          <li><a href="#rfTopics">专题企划</a></li>
+          <li><a href="#rfInsight">深度解析</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>社区与创作者</h4>
+        <ul>
+          <li><a href="#rfAuthors">创作者矩阵</a></li>
+          <li><a href="#rfCommunity">社区评价</a></li>
+          <li><a href="#rfStory">品牌故事</a></li>
+          <li><a href="#rfFaq">帮助中心</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>参与方式</h4>
+        <ul>
+          <li><a href="#rfFaq" data-rf-modal="submit">内容投稿</a></li>
+          <li><a href="#rfFaq" data-rf-modal="contact">商务合作</a></li>
+          <li><a href="#rfFaq">赛事报名</a></li>
+          <li><a href="#rfFaq" data-rf-modal="report">反馈与举报</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="rf-footer-bottom">
+      <span>© 2026 17.c射频在线永不迷路 官方网站 · 版权所有 · 持续运营中</span>
+      <span>内容均为原创正版 · 高清播放 · 品牌备案号 RF-2026-0117</span>
+    </div>
+  </div>
+</footer>
+
+<div class="rf-toast" id="rfToast" role="status" aria-live="polite"></div>
+
+<div class="rf-modal" id="rfModal" role="dialog" aria-modal="true" aria-labelledby="rfModalTitle">
+  <div class="rf-modal-shell">
+    <button class="rf-modal-close" id="rfModalClose" aria-label="关闭弹窗">×</button>
+    <div class="rf-modal-box">
+      <h3 id="rfModalTitle">提示</h3>
+      <div id="rfModalBody"></div>
+    </div>
+  </div>
+</div>
+
+<button class="rf-top" id="rfTop" aria-label="回到顶部">↑</button>
+
+<script>
+(function(){
+  var rf = {};
+
+  rf.toast = function(msg){
+    var t = document.getElementById('rfToast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('rf-on');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.classList.remove('rf-on'); }, 2200);
+  };
+
+  /* 公告关闭 */
+  var ac = document.getElementById('rfAnnounceClose');
+  if(ac){
+    ac.addEventListener('click', function(){
+      var a = document.getElementById('rfAnnounce');
+      if(a){ a.style.display = 'none'; }
+    });
+  }
+
+  /* 移动端导航 */
+  var burger = document.getElementById('rfBurger');
+  var nav = document.getElementById('rfNav');
+  if(burger && nav){
+    burger.addEventListener('click', function(){
+      var open = nav.classList.toggle('rf-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        nav.classList.remove('rf-open');
+        burger.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+
+  /* 搜索反馈 */
+  var searchInput = document.getElementById('rfSearchInput');
+  var searchBtn = document.getElementById('rfSearchBtn');
+  var searchFb = document.getElementById('rfSearchFeedback');
+  var searchPool = ['毫米波天线阵列','微带线阻抗','杂散定位','负载牵引','校准件选型','屏蔽腔设计','S参数脚本','暗室搭建','群时延','测量不确定度'];
+
+  function doSearch(){
+    if(!searchInput || !searchFb) return;
+    var q = searchInput.value.trim();
+    if(!q){
+      searchFb.innerHTML = '输入关键词试试，例如 <b>毫米波</b> 或 <b>校准</b>';
+      searchFb.classList.add('rf-on');
+      return;
+    }
+    var hits = searchPool.filter(function(k){ return k.indexOf(q) !== -1 || q.indexOf(k) !== -1; });
+    if(hits.length === 0){
+      hits = searchPool.filter(function(k){ return k.indexOf(q.charAt(0)) !== -1; }).slice(0,3);
+    }
+    if(hits.length){
+      searchFb.innerHTML = '匹配到 <b>' + hits.length + '</b> 个内容方向：' + hits.map(function(h){ return '「'+h+'」'; }).join('、') + '，结果已按收藏率排序。';
+    }else{
+      searchFb.innerHTML = '暂未匹配到「' + q.replace(/[<>&]/g,'') + '」，可尝试更短的关键词，或到帮助中心留言。';
+    }
+    searchFb.classList.add('rf-on');
+  }
+  if(searchBtn){ searchBtn.addEventListener('click', doSearch); }
+  if(searchInput){
+    searchInput.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); doSearch(); } });
+    searchInput.addEventListener('input', function(){
+      if(searchInput.value.trim() === ''){
+        searchFb.classList.remove('rf-on');
+      }
+    });
+  }
+  document.addEventListener('click', function(e){
+    if(searchFb && !e.target.closest('.rf-search')){ searchFb.classList.remove('rf-on'); }
+  });
+
+  /* 点赞 / 收藏 */
+  document.querySelectorAll('[data-rf-like]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var on = btn.classList.toggle('rf-liked');
+      btn.textContent = on ? '♥ 已点赞' : '♡ 点赞';
+      rf.toast(on ? '已为你点赞，感谢支持原创内容' : '已取消点赞');
+    });
+  });
+  document.querySelectorAll('[data-rf-save]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var on = btn.classList.toggle('rf-saved');
+      btn.textContent = on ? '★ 已收藏' : '☆ 收藏';
+      rf.toast(on ? '已收藏到你的学习清单' : '已从学习清单移除');
+    });
+  });
+
+  /* 复制链接 */
+  document.querySelectorAll('[data-rf-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var url = window.location.href;
+      var done = function(){ rf.toast('链接已复制，可分享给同事一起看'); };
+      var fail = function(){ rf.toast('复制失败，请手动选择地址栏链接'); };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(done).catch(fail);
+      }else{
+        try{
+          var ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          done();
+        }catch(err){ fail(); }
+      }
+    });
+  });
+
+  /* 作者弹窗 */
+  document.querySelectorAll('[data-rf-author]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      var text = link.getAttribute('data-rf-author') || '';
+      openModal('创作者档案', '<p>' + text + '</p><p>该创作者已加入平台内容共建计划，作品均为原创正版内容，可在视频库中查看其全部作品。若希望与其合作或约稿，请通过帮助中心的联系入口提交需求。</p>');
+    });
+  });
+
+  /* 弹窗 */
+  var modal = document.getElementById('rfModal');
+  var modalTitle = document.getElementById('rfModalTitle');
+  var modalBody = document.getElementById('rfModalBody');
+  var modalClose = document.getElementById('rfModalClose');
+
+  function openModal(title, html){
+    if(!modal) return;
+    modalTitle.textContent = title;
+    modalBody.innerHTML = html;
+    modal.classList.add('rf-on');
+  }
+  function closeModal(){
+    if(modal){ modal.classList.remove('rf-on'); }
+  }
+  if(modalClose){ modalClose.addEventListener('click', closeModal); }
+  if(modal){
+    modal.addEventListener('click', function(e){
+      if(e.target === modal){ closeModal(); }
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeModal(); }
+  });
+
+  var modalContent = {
+    submit: '<h3>内容投稿</h3><p>请准备以下信息后发送至平台编审邮箱：选题方向、视频时长、关键参数清单、可提供的配套工程文件说明。</p><p>编审会在三个工作日内回复，并安排一次选题沟通。通过试用期后，作品将以原创正版形式发布，创作者保留著作权。</p><p>提示：涉及测量的内容请注明仪器型号与校准状态，涉及仿真的内容请标注软件版本与求解设置。</p>',
+    contact: '<h3>联系我们</h3><p>企业合作与培训定制：partner@rf-online.example</p><p>内容投稿与编审沟通：editor@rf-online.example</p><p>赛事咨询与报名：contest@rf-online.example</p><p>工作时间：周一至周五 9:30–18:30，节假日以公告为准。</p>',
+    report: '<h3>反馈与举报</h3><p>如发现内容存在参数错误、版权问题或不当表述，请描述具体视频与问题位置，附上可核实的依据。</p><p>平台承诺对每一条技术勘误进行复核，处理结果将在社区公告中公开说明。涉及版权投诉的，请提供权属证明材料。</p>'
+  };
+
+  document.querySelectorAll('[data-rf-modal]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var key = btn.getAttribute('data-rf-modal');
+      openModal(key === 'submit' ? '内容投稿' : (key === 'contact' ? '联系我们' : '反馈与举报'), modalContent[key] || '<p>暂无内容</p>');
+      var m = document.getElementById('rfModalTitle');
+      if(m){ m.textContent = key === 'submit' ? '内容投稿' : (key === 'contact' ? '联系我们' : '反馈与举报'); }
+    });
+  });
+
+  /* 回到顶部 */
+  var topBtn = document.getElementById('rfTop');
+  window.addEventListener('scroll', function(){
+    if(!topBtn) return;
+    if(window.scrollY > 520){ topBtn.classList.add('rf-on'); }
+    else{ topBtn.classList.remove('rf-on'); }
+  }, {passive:true});
+  if(topBtn){
+    topBtn.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+
+  /* 卡片悬停动效由 CSS 处理；此处补充键盘可访问性提示 */
+  document.querySelectorAll('.rf-video-card, .rf-author, .rf-topic').forEach(function(card){
+    card.addEventListener('mouseenter', function(){ card.style.willChange = 'transform'; });
+    card.addEventListener('mouseleave', function(){ card.style.willChange = 'auto'; });
+  });
+})();
+</script>
+</body>
+  </html>
